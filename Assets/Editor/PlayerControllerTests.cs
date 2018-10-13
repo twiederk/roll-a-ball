@@ -11,4 +11,24 @@ public class PlayerControllerTest {
         Assert.AreEqual(true, false);
     }
 
+    [Test]
+    public void MySecond_Test()
+    {
+        Assert.AreEqual(true, true);
+    }
+
+    [Test]
+    public void setTestCount_Test()
+    {
+        // Arrange
+        PlayerController playerController = new PlayerController();
+
+        // Act
+        string winText = playerController.SetCountText();
+
+        // Assert
+        Assert.AreEqual("You Win!", winText);
+
+    }
+
 }
