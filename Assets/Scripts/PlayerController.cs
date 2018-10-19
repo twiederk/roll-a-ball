@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -49,8 +50,15 @@ public class PlayerController : MonoBehaviour {
         if (count >= 12)
         {
             winText.text = "You win!";
+            Invoke("Restart", 2.0f);
+
         }
         return winText.text;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
