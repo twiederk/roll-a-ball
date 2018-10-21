@@ -10,18 +10,23 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text countText;
     public Text winText;
+    public Text timeText;
 
     private int count;
+    private bool playerWon;
+    private float startTime;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rb;
 
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         count = 0;
         winText.text = "";
         SetCountText();
+        timeText.text = "";
+        startTime = Time.time;
     }
 
     void FixedUpdate()
@@ -31,7 +36,13 @@ public class PlayerController : MonoBehaviour {
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        rigidbody.AddForce(movement * speed);
+        rb.AddForce(movement * speed);
+
+        if (!playerWon)
+        {
+            float passedTime = Time.time - startTime;
+            timeText.text = "Time: " + passedTime.ToString("0.##");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,6 +61,7 @@ public class PlayerController : MonoBehaviour {
         if (count >= 12)
         {
             winText.text = "You win!";
+            playerWon = true;
             Invoke("Restart", 2.0f);
 
         }
