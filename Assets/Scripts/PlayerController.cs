@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-    public float speed;
+    public float Speed;
+    public Movement Movement;
     public Text countText;
     public Text winText;
     public Text timeText;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody rb;
 
 
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour {
         SetCountText();
         timeText.text = "";
         startTime = Time.time;
+        Movement = new Movement(Speed);
     }
 
     void FixedUpdate()
@@ -34,9 +38,10 @@ public class PlayerController : MonoBehaviour {
         float moveHorizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float moveVertical = CrossPlatformInputManager.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 movement = Movement.Calculate(moveHorizontal, moveVertical);
 
-        rb.AddForce(movement * speed);
+        rb.AddForce(movement);
+
 
         if (!playerWon)
         {
@@ -44,6 +49,7 @@ public class PlayerController : MonoBehaviour {
             timeText.text = "Time: " + passedTime.ToString("0.##");
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
